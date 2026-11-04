@@ -1,0 +1,84 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "homeloom",
+  "title": "Homeloom",
+  "description": "Reminders, notes and the shopping list of your household.",
+  "icon": "extension-icon.png",
+  "author": "mariusgassen",
+  "license": "MIT",
+  "platforms": [
+    "macOS",
+    "Windows"
+  ],
+  "categories": [
+    "Productivity"
+  ],
+  "preferences": [
+    {
+      "name": "url",
+      "type": "textfield",
+      "required": true,
+      "title": "Homeloom URL",
+      "description": "Where your Homeloom runs.",
+      "placeholder": "https://homeloom.example.com"
+    },
+    {
+      "name": "key",
+      "type": "password",
+      "required": true,
+      "title": "Key",
+      "description": "Settings › Other apps › new key, with access to tools."
+    }
+  ],
+  "commands": [
+    {
+      "name": "today",
+      "title": "Today",
+      "subtitle": "Homeloom",
+      "description": "Reminders and events that are due.",
+      "mode": "view"
+    },
+    {
+      "name": "add-reminder",
+      "title": "Add Reminder",
+      "subtitle": "Homeloom",
+      "description": "Add a reminder to Homeloom.",
+      "mode": "view"
+    },
+    {
+      "name": "add-note",
+      "title": "Add Note",
+      "subtitle": "Homeloom",
+      "description": "Add a note to Homeloom.",
+      "mode": "view"
+    },
+    {
+      "name": "shopping-list",
+      "title": "Shopping List",
+      "subtitle": "Homeloom",
+      "description": "See the shared list and add to it.",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.11.0",
+    "@raycast/utils": "^2.3.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "eslint": "^10.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.0",
+    "vitest": "^5.1.0"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint",
+    "fix-lint": "ray lint --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  }
+}
