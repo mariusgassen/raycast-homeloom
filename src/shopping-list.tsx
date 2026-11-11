@@ -9,7 +9,7 @@ import {
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
 import { useState } from "react";
-import { addToShopping, listShopping } from "./lib/homeloom";
+import { addToShopping, listShopping, pageUrl } from "./lib/homeloom";
 import { t } from "./lib/i18n";
 
 export default function Command() {
@@ -32,7 +32,9 @@ export default function Command() {
     }
   }
 
-  const open = <Action.OpenInBrowser title={t("openHomeloom")} url={url} />;
+  const open = (
+    <Action.OpenInBrowser title={t("openHomeloom")} url={pageUrl(url, "/lists?show=shopping")} />
+  );
   const todo = (data ?? []).filter((i) => !i.done);
   const done = (data ?? []).filter((i) => i.done);
 

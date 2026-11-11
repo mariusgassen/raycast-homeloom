@@ -4,7 +4,7 @@ vi.mock("@raycast/api", () => ({
   getPreferenceValues: () => ({ url: "https://h.example", key: "hlp_x" }),
 }));
 
-import { endpoint, forToday, localStamp, parseRpc, type Entry } from "./homeloom";
+import { endpoint, forToday, localStamp, pageUrl, parseRpc, type Entry } from "./homeloom";
 import { pickLang } from "./i18n";
 import { catalogs } from "../i18n/locales";
 
@@ -14,6 +14,12 @@ describe("endpoint", () => {
   it("adds /mcp once", () => {
     expect(endpoint("https://h.example/")).toBe("https://h.example/mcp");
     expect(endpoint(" https://h.example ")).toBe("https://h.example/mcp");
+  });
+  it("builds app page URLs", () => {
+    expect(pageUrl("https://h.example/")).toBe("https://h.example/");
+    expect(pageUrl("https://h.example/", "/lists?show=shopping")).toBe(
+      "https://h.example/lists?show=shopping",
+    );
   });
 });
 

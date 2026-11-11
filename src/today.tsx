@@ -1,6 +1,14 @@
-import { Action, ActionPanel, Icon, List, showToast, Toast } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  getPreferenceValues,
+  Icon,
+  List,
+  showToast,
+  Toast,
+} from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
-import { completeReminder, forToday, listEntries, type Entry } from "./lib/homeloom";
+import { completeReminder, forToday, listEntries, pageUrl, type Entry } from "./lib/homeloom";
 import { t } from "./lib/i18n";
 
 async function load() {
@@ -15,6 +23,7 @@ const time = (e: Entry) => {
 
 export default function Command() {
   const { data, isLoading, revalidate } = useCachedPromise(load);
+  const { url } = getPreferenceValues<{ url: string }>();
 
   async function done(e: Entry) {
     try {
@@ -40,6 +49,10 @@ export default function Command() {
           {e.due && (
             <Action title={t("markDone")} icon={Icon.CheckCircle} onAction={() => done(e)} />
           )}
+          <Action.OpenInBrowser
+            title={t("openHomeloom")}
+            url={pageUrl(url, `/lists?entry=${encodeURIComponent(e.id)}`)}
+          />
         </ActionPanel>
       }
     />
@@ -48,7 +61,16 @@ export default function Command() {
   const empty = !isLoading && !data?.overdue.length && !data?.today.length;
   return (
     <List isLoading={isLoading}>
-      {empty && <List.EmptyView title={t("nothingToday")} />}
+      {empty && (
+        <List.EmptyView
+          title={t("nothingToday")}
+          actions={
+            <ActionPanel>
+              <Action.OpenInBrowser title={t("openHomeloom")} url={pageUrl(url)} />
+            </ActionPanel>
+          }
+        />
+      )}
       {!!data?.overdue.length && (
         <List.Section title={t("overdue")}>{data.overdue.map(row)}</List.Section>
       )}
