@@ -35,6 +35,11 @@ export function endpoint(url: string): string {
   return url.trim().replace(/\/+$/, "") + "/mcp";
 }
 
+/** A page inside the Homeloom web app. */
+export function pageUrl(url: string, path = "/"): string {
+  return url.trim().replace(/\/+$/, "") + path;
+}
+
 /** The answer is JSON or a one-message event stream, depending on the server. */
 export function parseRpc(body: string): {
   result?: { isError?: boolean; content?: { text?: string }[] };
