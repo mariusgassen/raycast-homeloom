@@ -103,6 +103,34 @@
       "mode": "view"
     },
     {
+      "name": "wishes",
+      "title": "Wishlist",
+      "subtitle": "Homeloom",
+      "description": "The household's wishes, most wanted first.",
+      "mode": "view"
+    },
+    {
+      "name": "add-wish",
+      "title": "Add Wish",
+      "subtitle": "Homeloom",
+      "description": "Put something on the wishlist.",
+      "mode": "view"
+    },
+    {
+      "name": "gift-ideas",
+      "title": "Gift Ideas",
+      "subtitle": "Homeloom",
+      "description": "Your private gift ideas.",
+      "mode": "view"
+    },
+    {
+      "name": "add-gift-idea",
+      "title": "Add Gift Idea",
+      "subtitle": "Homeloom",
+      "description": "Keep a gift idea for someone, just for you.",
+      "mode": "view"
+    },
+    {
       "name": "notes",
       "title": "Notes",
       "subtitle": "Homeloom",
