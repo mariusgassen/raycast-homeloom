@@ -75,6 +75,13 @@
       "mode": "view"
     },
     {
+      "name": "notes",
+      "title": "Notes",
+      "subtitle": "Homeloom",
+      "description": "Read and edit your household's notes.",
+      "mode": "view"
+    },
+    {
       "name": "shopping-list",
       "title": "Shopping List",
       "subtitle": "Homeloom",

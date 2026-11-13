@@ -8,6 +8,7 @@ export interface Entry {
   id: string;
   kind: "note" | "reminder" | "event";
   text?: string;
+  title?: string;
   sealed: boolean;
   visibility: Visibility;
   authorId: string;
@@ -158,6 +159,10 @@ export const addToShopping = async (items: string[]) => {
   }
   return listShopping();
 };
+
+/** Rewrites a note's text. A note that opens later keeps its time, so only plain ones are edited. */
+export const updateNote = (id: string, text: string, visibility: "private" | "shared") =>
+  api<Entry>("PUT", `/entries/${id}`, { text, visibility });
 
 /** Ticks a shopping item off, or puts it back. */
 export const tickShopping = async (id: string, done: boolean) =>
