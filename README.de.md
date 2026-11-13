@@ -8,6 +8,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Add Reminder**: Text, optional Fälligkeit, nur du oder geteilt.
 - **Add Note**: Markdown, nur du oder geteilt.
 - **Shopping List**: die gemeinsame Liste ansehen und Dinge eintippen.
+- **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.
 
 ## Einrichten
 

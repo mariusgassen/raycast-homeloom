@@ -29,6 +29,10 @@ const en = {
   signInFailed: "Signing in failed. Check the sign-in address, client ID and secret.",
   noHousehold: "You're not in a household yet. Open Homeloom to start one.",
   unreachable: "Homeloom can't be reached",
+  ask: "Ask",
+  question: "Question",
+  followUp: "Ask more",
+  copyAnswer: "Copy answer",
 };
 
 const de: typeof en = {
@@ -63,6 +67,10 @@ const de: typeof en = {
   signInFailed: "Die Anmeldung ist fehlgeschlagen. Prüf Adresse, Client-ID und Secret.",
   noHousehold: "Du bist noch in keinem Haushalt. Öffne Homeloom, um einen zu starten.",
   unreachable: "Homeloom ist nicht erreichbar",
+  ask: "Fragen",
+  question: "Frage",
+  followUp: "Nachfragen",
+  copyAnswer: "Antwort kopieren",
 };
 
 export type Key = keyof typeof en;

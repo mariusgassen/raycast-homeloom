@@ -76,6 +76,33 @@ export async function api<T>(method: string, path: string, body?: unknown): Prom
   return (res.status === 204 ? null : await res.json()) as T;
 }
 
+/** The same request, but the answer is left to the caller (a stream, say). */
+export async function apiRaw(method: string, path: string, body?: unknown): Promise<Response> {
+  const { url } = getPreferenceValues<Prefs>();
+  const token = await accessToken();
+  let res: Response;
+  try {
+    res = await fetch(base(url) + "/v1" + path, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "text/event-stream, application/json",
+        "Content-Type": "application/json",
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+      signal: AbortSignal.timeout(120_000),
+    });
+  } catch {
+    throw new HomeloomError(t("unreachable"));
+  }
+  if (res.status === 401) throw new HomeloomError(t("unauthorized"));
+  if (!res.ok) {
+    const e = (await res.json().catch(() => null)) as { message?: string } | null;
+    throw new HomeloomError(e?.message ?? t("failed"));
+  }
+  return res;
+}
+
 const HOUSEHOLD = "household";
 
 /** The household the person acts in: the one they belong to, or the first of several. */
@@ -94,7 +121,7 @@ export async function memberNames(): Promise<Record<string, string>> {
   return Object.fromEntries(h.members.map((m) => [m.user.id, m.user.name]));
 }
 
-const inHousehold = async (path: string) => `/households/${await householdId()}${path}`;
+export const inHousehold = async (path: string) => `/households/${await householdId()}${path}`;
 
 export const listEntries = async (kind: "reminder" | "event" | "note") =>
   api<Entry[]>("GET", await inHousehold(`/entries?kind=${kind}`));
