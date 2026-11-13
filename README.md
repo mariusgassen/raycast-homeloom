@@ -11,10 +11,11 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 
 ## Set up
 
-1. In Homeloom open **Settings › Other apps** and make a key for **Assistant**. Calendar and Notes keys are passwords for other apps and don't work here.
-2. In Raycast, open any Homeloom command and enter your Homeloom address and the key.
+1. In your sign-in provider (authentik), add the redirect URI `https://raycast.com/redirect/extension` to the provider Homeloom uses.
+2. In Raycast, open any Homeloom command and enter your Homeloom address, the provider's sign-in address (its OpenID Configuration Issuer), and its client ID and secret.
+3. The first command opens a browser window to sign in. After that it stays signed in.
 
-The key acts as you in one household and works until you delete it in Homeloom. It is stored in Raycast's preferences.
+You act as yourself, with the same rules as in the app. The client secret is stored in Raycast's preferences.
 
 ## Develop
 
@@ -23,7 +24,7 @@ npm install
 npm run dev
 ```
 
-The extension talks to Homeloom's `/mcp` endpoint only. See `CLAUDE.md`.
+The extension talks to Homeloom's REST API (`/v1`). See `CLAUDE.md`.
 
 ## Licence
 

@@ -11,10 +11,11 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 
 ## Einrichten
 
-1. Öffne in Homeloom **Einstellungen › Andere Apps** und erstelle einen Schlüssel für **Assistent**. Kalender- und Notizen-Schlüssel sind Passwörter für andere Apps und funktionieren hier nicht.
-2. Öffne in Raycast einen Homeloom-Befehl und trage deine Homeloom-Adresse und den Schlüssel ein.
+1. Trag in deinem Anmeldedienst (authentik) beim Provider, den Homeloom nutzt, die Weiterleitungs-URI `https://raycast.com/redirect/extension` ein.
+2. Öffne in Raycast einen Homeloom-Befehl und trage deine Homeloom-Adresse, die Anmeldeadresse des Providers (sein OpenID Configuration Issuer) sowie Client-ID und Secret ein.
+3. Der erste Befehl öffnet ein Browserfenster zum Anmelden. Danach bleibst du angemeldet.
 
-Der Schlüssel handelt als du in einem Haushalt und gilt, bis du ihn in Homeloom löschst. Er liegt in den Raycast-Einstellungen.
+Du handelst als du selbst, mit denselben Regeln wie in der App. Das Client-Secret liegt in den Raycast-Einstellungen.
 
 ## Entwickeln
 
@@ -23,7 +24,7 @@ npm install
 npm run dev
 ```
 
-Die Erweiterung spricht nur mit dem `/mcp`-Endpunkt von Homeloom. Siehe `CLAUDE.md`.
+Die Erweiterung spricht mit der REST-API von Homeloom (`/v1`). Siehe `CLAUDE.md`.
 
 ## Lizenz
 

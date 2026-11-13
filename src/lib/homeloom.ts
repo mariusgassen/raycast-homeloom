@@ -1,33 +1,39 @@
-import { getPreferenceValues } from "@raycast/api";
+import { getPreferenceValues, LocalStorage } from "@raycast/api";
+import { accessToken } from "./auth";
 import { t } from "./i18n";
 
 export type Visibility = "private" | "shared" | "reveal";
 
 export interface Entry {
   id: string;
+  kind: "note" | "reminder" | "event";
   text?: string;
-  sealed?: boolean;
+  sealed: boolean;
   visibility: Visibility;
-  author: string;
-  for?: string;
-  due?: string;
-  starts?: string;
-  ends?: string;
-  all_day?: boolean;
-  done?: boolean;
+  authorId: string;
+  assigneeId?: string;
+  dueAt?: string;
+  startsAt?: string;
+  endsAt?: string;
+  allDay: boolean;
+  doneAt?: string;
 }
 
 export interface ShoppingItem {
+  id: string;
   text: string;
   recipe?: string;
-  done?: boolean;
+  done: boolean;
+}
+
+interface Member {
+  user: { id: string; name: string };
 }
 
 export class HomeloomError extends Error {}
 
 interface Prefs {
   url: string;
-  key: string;
 }
 
 /** Settings shows the address with /mcp on the end, so a pasted one is taken as it is. */
@@ -38,94 +44,99 @@ function base(url: string): string {
     .replace(/\/mcp$/, "");
 }
 
-/** The server's MCP endpoint is stateless, so one POST is one tool call. */
-export function endpoint(url: string): string {
-  return base(url) + "/mcp";
-}
-
 /** A page inside the Homeloom web app. */
 export function pageUrl(url: string, path = "/"): string {
   return base(url) + path;
 }
 
-/** The answer is JSON or a one-message event stream, depending on the server. */
-export function parseRpc(body: string): {
-  result?: { isError?: boolean; content?: { text?: string }[] };
-  error?: { message: string };
-} {
-  const trimmed = body.trim();
-  if (trimmed.startsWith("{")) return JSON.parse(trimmed);
-  const data = trimmed
-    .split("\n")
-    .filter((l) => l.startsWith("data:"))
-    .map((l) => l.slice(5).trim())
-    .filter(Boolean);
-  if (data.length === 0) throw new HomeloomError(t("failed"));
-  return JSON.parse(data[data.length - 1]);
-}
-
-export async function callTool<T>(name: string, args: Record<string, unknown> = {}): Promise<T> {
-  const { url, key } = getPreferenceValues<Prefs>();
+/** One call to the REST API as the signed-in person. */
+export async function api<T>(method: string, path: string, body?: unknown): Promise<T> {
+  const { url } = getPreferenceValues<Prefs>();
+  const token = await accessToken();
   let res: Response;
   try {
-    res = await fetch(endpoint(url), {
-      method: "POST",
+    res = await fetch(base(url) + "/v1" + path, {
+      method,
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json, text/event-stream",
-        Authorization: `Bearer ${key.trim()}`,
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        ...(body === undefined ? {} : { "Content-Type": "application/json" }),
       },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "tools/call",
-        params: { name, arguments: args },
-      }),
+      body: body === undefined ? undefined : JSON.stringify(body),
       signal: AbortSignal.timeout(15_000),
     });
   } catch {
     throw new HomeloomError(t("unreachable"));
   }
   if (res.status === 401) throw new HomeloomError(t("unauthorized"));
-  if (!res.ok) throw new HomeloomError(t("unreachable"));
-  const rpc = parseRpc(await res.text());
-  const text = rpc.result?.content?.[0]?.text ?? "";
-  if (rpc.error || rpc.result?.isError)
-    throw new HomeloomError(rpc.error?.message ?? (text || t("failed")));
-  return (text ? JSON.parse(text) : null) as T;
+  if (!res.ok) {
+    const e = (await res.json().catch(() => null)) as { message?: string } | null;
+    throw new HomeloomError(e?.message ?? t("failed"));
+  }
+  return (res.status === 204 ? null : await res.json()) as T;
 }
 
-/** Local time as the server wants it: YYYY-MM-DDTHH:MM. */
-export function localStamp(d: Date): string {
+const HOUSEHOLD = "household";
+
+/** The household the person acts in: the one they belong to, or the first of several. */
+export async function householdId(): Promise<string> {
+  const cached = await LocalStorage.getItem<string>(HOUSEHOLD);
+  if (cached) return cached;
+  const all = await api<{ id: string }[]>("GET", "/households");
+  if (all.length === 0) throw new HomeloomError(t("noHousehold"));
+  await LocalStorage.setItem(HOUSEHOLD, all[0].id);
+  return all[0].id;
+}
+
+/** Member names by id, to say who a reminder is for. */
+export async function memberNames(): Promise<Record<string, string>> {
+  const h = await api<{ members: Member[] }>("GET", `/households/${await householdId()}`);
+  return Object.fromEntries(h.members.map((m) => [m.user.id, m.user.name]));
+}
+
+const inHousehold = async (path: string) => `/households/${await householdId()}${path}`;
+
+export const listEntries = async (kind: "reminder" | "event" | "note") =>
+  api<Entry[]>("GET", await inHousehold(`/entries?kind=${kind}`));
+export const addReminder = async (text: string, visibility: "private" | "shared", due?: Date) =>
+  api<Entry>("POST", await inHousehold("/entries"), {
+    kind: "reminder",
+    text,
+    visibility,
+    ...(due ? { dueAt: due.toISOString() } : {}),
+  });
+export const addNote = async (text: string, visibility: "private" | "shared") =>
+  api<Entry>("POST", await inHousehold("/entries"), { kind: "note", text, visibility });
+export const completeReminder = (id: string) => api<Entry>("PUT", `/entries/${id}/done`);
+export const listShopping = async () =>
+  api<ShoppingItem[]>("GET", await inHousehold("/shopping-list"));
+export const addToShopping = async (items: string[]) => {
+  for (const text of items) {
+    await api<ShoppingItem>("POST", await inHousehold("/shopping-list/items"), { text });
+  }
+  return listShopping();
+};
+
+/** The local calendar day of a timestamp, YYYY-MM-DD. */
+export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
-
-export const listEntries = (kind: "reminder" | "event" | "note") =>
-  callTool<Entry[]>("list_entries", { kind });
-export const addReminder = (text: string, visibility: "private" | "shared", due?: Date) =>
-  callTool("add_reminder", { text, visibility, ...(due ? { due: localStamp(due) } : {}) });
-export const addNote = (text: string, visibility: "private" | "shared") =>
-  callTool("add_note", { text, visibility });
-export const completeReminder = (id: string) => callTool("complete_reminder", { id });
-export const listShopping = () => callTool<ShoppingItem[]>("list_shopping");
-export const addToShopping = (items: string[]) =>
-  callTool<ShoppingItem[]>("add_to_shopping_list", { items });
 
 /** Reminders that are due today or earlier, and today's events; the rest is not for today. */
 export function forToday(entries: Entry[], now: Date): { overdue: Entry[]; today: Entry[] } {
-  const day = localStamp(now).slice(0, 10);
+  const day = localDay(now);
   const overdue: Entry[] = [];
   const today: Entry[] = [];
   for (const e of entries) {
-    if (e.done) continue;
-    const when = e.due ?? e.starts;
+    if (e.doneAt) continue;
+    const when = e.dueAt ?? e.startsAt;
     if (!when) continue;
-    const d = when.slice(0, 10);
-    if (d < day && e.due) overdue.push(e);
+    const d = localDay(new Date(when));
+    if (d < day && e.dueAt) overdue.push(e);
     else if (d === day) today.push(e);
   }
   const byTime = (a: Entry, b: Entry) =>
-    (a.due ?? a.starts ?? "").localeCompare(b.due ?? b.starts ?? "");
+    (a.dueAt ?? a.startsAt ?? "").localeCompare(b.dueAt ?? b.startsAt ?? "");
   return { overdue: overdue.sort(byTime), today: today.sort(byTime) };
 }

@@ -23,11 +23,26 @@
       "placeholder": "https://homeloom.example.com"
     },
     {
-      "name": "key",
+      "name": "issuer",
+      "type": "textfield",
+      "required": true,
+      "title": "Sign-in address",
+      "description": "The OpenID Configuration Issuer of Homeloom's sign-in provider.",
+      "placeholder": "https://auth.example.com/application/o/homeloom/"
+    },
+    {
+      "name": "clientId",
+      "type": "textfield",
+      "required": true,
+      "title": "Client ID",
+      "description": "The same client ID Homeloom uses to sign in."
+    },
+    {
+      "name": "clientSecret",
       "type": "password",
       "required": true,
-      "title": "Key",
-      "description": "Settings › Other apps › new key for Assistant (not Calendar or Notes)."
+      "title": "Client secret",
+      "description": "The client secret that goes with it."
     }
   ],
   "commands": [
