@@ -1,77 +1,75 @@
-import {
-  Action,
-  ActionPanel,
-  Detail,
-  Form,
-  Icon,
-  showToast,
-  Toast,
-  useNavigation,
-} from "@raycast/api";
-import { useEffect, useRef, useState } from "react";
-import { ask, type Chat } from "./lib/chat";
+import { Action, ActionPanel, Detail, Form, Icon, showToast, Toast } from "@raycast/api";
+import { useState } from "react";
+import { ask } from "./lib/chat";
 import { t } from "./lib/i18n";
 
-function Answer({ question, conversationId }: { question: string; conversationId?: string }) {
-  const [chat, setChat] = useState<Chat>({ conversationId, text: "", done: false });
-  const [failed, setFailed] = useState(false);
-  const started = useRef(false);
-  const { push } = useNavigation();
+interface Turn {
+  question: string;
+  answer: string;
+}
 
-  useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    ask(question, conversationId, setChat).catch(async (e) => {
-      setFailed(true);
+/** The whole conversation as Markdown, newest last. */
+function transcript(turns: Turn[]): string {
+  return turns.map((x) => `**${x.question}**\n\n${x.answer}`).join("\n\n---\n\n");
+}
+
+export default function Command() {
+  const [turns, setTurns] = useState<Turn[]>([]);
+  const [conversationId, setConversationId] = useState<string>();
+  const [busy, setBusy] = useState(false);
+  const [asking, setAsking] = useState(true);
+
+  async function submit(v: { text: string }) {
+    const question = v.text.trim();
+    if (!question) return;
+    const at = turns.length;
+    setTurns((prev) => [...prev, { question, answer: "" }]);
+    setAsking(false);
+    setBusy(true);
+    try {
+      const chat = await ask(question, conversationId, (c) => {
+        if (c.conversationId) setConversationId(c.conversationId);
+        setTurns((prev) => prev.map((x, i) => (i === at ? { ...x, answer: c.text } : x)));
+      });
+      if (chat.conversationId) setConversationId(chat.conversationId);
+    } catch (e) {
       await showToast({
         style: Toast.Style.Failure,
         title: t("failed"),
         message: e instanceof Error ? e.message : undefined,
       });
-    });
-  }, []);
+    } finally {
+      setBusy(false);
+    }
+  }
 
+  if (asking) {
+    return (
+      <Form
+        actions={
+          <ActionPanel>
+            <Action.SubmitForm title={t("ask")} onSubmit={submit} />
+          </ActionPanel>
+        }
+      >
+        <Form.TextArea id="text" title={t("question")} autoFocus />
+      </Form>
+    );
+  }
+
+  const last = turns[turns.length - 1]?.answer;
   return (
     <Detail
-      isLoading={!chat.done && !failed}
-      markdown={`**${question}**\n\n${chat.text}`}
+      isLoading={busy}
+      markdown={transcript(turns)}
       actions={
         <ActionPanel>
-          {chat.done && chat.conversationId && (
-            <Action
-              title={t("followUp")}
-              icon={Icon.Message}
-              onAction={() => push(<Question conversationId={chat.conversationId} />)}
-            />
+          {!busy && (
+            <Action title={t("followUp")} icon={Icon.Message} onAction={() => setAsking(true)} />
           )}
-          {chat.text && <Action.CopyToClipboard title={t("copyAnswer")} content={chat.text} />}
+          {last && <Action.CopyToClipboard title={t("copyAnswer")} content={last} />}
         </ActionPanel>
       }
     />
   );
-}
-
-function Question({ conversationId }: { conversationId?: string }) {
-  const { push } = useNavigation();
-  return (
-    <Form
-      actions={
-        <ActionPanel>
-          <Action.SubmitForm
-            title={t("ask")}
-            onSubmit={(v: { text: string }) => {
-              const text = v.text.trim();
-              if (text) push(<Answer question={text} conversationId={conversationId} />);
-            }}
-          />
-        </ActionPanel>
-      }
-    >
-      <Form.TextArea id="text" title={t("question")} autoFocus />
-    </Form>
-  );
-}
-
-export default function Command() {
-  return <Question />;
 }
