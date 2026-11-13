@@ -6,7 +6,7 @@ vi.mock("@raycast/api", () => ({
   OAuth: { RedirectMethod: { Web: "web" }, PKCEClient: class {} },
 }));
 
-import { forToday, pageUrl, type Entry } from "./homeloom";
+import { forToday, pageUrl, parseEuros, type Entry } from "./homeloom";
 import { issuerBase } from "./auth";
 import { parseSse } from "./chat";
 import { pickLang } from "./i18n";
@@ -87,5 +87,16 @@ describe("parseSse", () => {
   });
   it("skips events that are not JSON", () => {
     expect(parseSse("event: text\ndata: nope\n\n").events).toEqual([]);
+  });
+});
+
+describe("parseEuros", () => {
+  it("reads comma and dot amounts as cents", () => {
+    expect(parseEuros("12,50")).toBe(1250);
+    expect(parseEuros(" 12.5 ")).toBe(1250);
+    expect(parseEuros("7")).toBe(700);
+  });
+  it("refuses anything else", () => {
+    for (const bad of ["", "0", "-3", "1,234", "abc", "1e3"]) expect(parseEuros(bad)).toBeNull();
   });
 });
