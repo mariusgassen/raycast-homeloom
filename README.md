@@ -10,6 +10,8 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 - **Add Note**: Markdown, just you or shared.
 - **Add Expense**: an amount, a category and who paid, split evenly.
 - **Money**: who owes whom, and settle up.
+- **Chores**: what is still to do, tick it off.
+- **Add Chore**: a title, the effort and how often it repeats.
 - **Notes**: read your notes and edit them.
 - **Shopping List**: see the shared list and add items by typing, tick them off.
 - **Ask Assistant**: ask a question about your household and ask more.
