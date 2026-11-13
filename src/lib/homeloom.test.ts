@@ -8,6 +8,7 @@ vi.mock("@raycast/api", () => ({
 
 import { forToday, pageUrl, type Entry } from "./homeloom";
 import { issuerBase } from "./auth";
+import { parseSse } from "./chat";
 import { pickLang } from "./i18n";
 import { catalogs } from "../i18n/locales";
 
@@ -70,5 +71,21 @@ describe("i18n", () => {
   });
   it("has the same keys in both catalogs", () => {
     expect(Object.keys(catalogs.de).sort()).toEqual(Object.keys(catalogs.en).sort());
+  });
+});
+
+describe("parseSse", () => {
+  it("returns complete events and keeps the rest", () => {
+    const r = parseSse(
+      'event: conversation\ndata: {"id":"c1"}\n\nevent: text\ndata: {"text":"Hi"}\n\nevent: te',
+    );
+    expect(r.events).toEqual([
+      { event: "conversation", data: { id: "c1" } },
+      { event: "text", data: { text: "Hi" } },
+    ]);
+    expect(r.rest).toBe("event: te");
+  });
+  it("skips events that are not JSON", () => {
+    expect(parseSse("event: text\ndata: nope\n\n").events).toEqual([]);
   });
 });

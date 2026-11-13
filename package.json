@@ -73,6 +73,13 @@
       "subtitle": "Homeloom",
       "description": "See the shared list and add to it.",
       "mode": "view"
+    },
+    {
+      "name": "assistant",
+      "title": "Ask Assistant",
+      "subtitle": "Homeloom",
+      "description": "Ask Homeloom's assistant about your household.",
+      "mode": "view"
     }
   ],
   "dependencies": {
