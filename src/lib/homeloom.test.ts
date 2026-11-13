@@ -14,8 +14,10 @@ describe("endpoint", () => {
   it("adds /mcp once", () => {
     expect(endpoint("https://h.example/")).toBe("https://h.example/mcp");
     expect(endpoint(" https://h.example ")).toBe("https://h.example/mcp");
+    expect(endpoint("https://h.example/mcp")).toBe("https://h.example/mcp");
   });
-  it("builds app page URLs", () => {
+  it("builds app page URLs, also from the address Settings shows", () => {
+    expect(pageUrl("https://h.example/mcp", "/lists")).toBe("https://h.example/lists");
     expect(pageUrl("https://h.example/")).toBe("https://h.example/");
     expect(pageUrl("https://h.example/", "/lists?show=shopping")).toBe(
       "https://h.example/lists?show=shopping",

@@ -11,7 +11,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 
 ## Einrichten
 
-1. Öffne in Homeloom **Einstellungen › Andere Apps** und erstelle einen Schlüssel mit Zugriff auf Werkzeuge.
+1. Öffne in Homeloom **Einstellungen › Andere Apps** und erstelle einen Schlüssel für **Assistent**. Kalender- und Notizen-Schlüssel sind Passwörter für andere Apps und funktionieren hier nicht.
 2. Öffne in Raycast einen Homeloom-Befehl und trage deine Homeloom-Adresse und den Schlüssel ein.
 
 Der Schlüssel handelt als du in einem Haushalt und gilt, bis du ihn in Homeloom löschst. Er liegt in den Raycast-Einstellungen.

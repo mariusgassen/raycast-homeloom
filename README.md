@@ -11,7 +11,7 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 
 ## Set up
 
-1. In Homeloom open **Settings › Other apps** and make a key with access to tools.
+1. In Homeloom open **Settings › Other apps** and make a key for **Assistant**. Calendar and Notes keys are passwords for other apps and don't work here.
 2. In Raycast, open any Homeloom command and enter your Homeloom address and the key.
 
 The key acts as you in one household and works until you delete it in Homeloom. It is stored in Raycast's preferences.

@@ -27,7 +27,7 @@
       "type": "password",
       "required": true,
       "title": "Key",
-      "description": "Settings › Other apps › new key, with access to tools."
+      "description": "Settings › Other apps › new key for Assistant (not Calendar or Notes)."
     }
   ],
   "commands": [

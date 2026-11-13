@@ -30,14 +30,22 @@ interface Prefs {
   key: string;
 }
 
+/** Settings shows the address with /mcp on the end, so a pasted one is taken as it is. */
+function base(url: string): string {
+  return url
+    .trim()
+    .replace(/\/+$/, "")
+    .replace(/\/mcp$/, "");
+}
+
 /** The server's MCP endpoint is stateless, so one POST is one tool call. */
 export function endpoint(url: string): string {
-  return url.trim().replace(/\/+$/, "") + "/mcp";
+  return base(url) + "/mcp";
 }
 
 /** A page inside the Homeloom web app. */
 export function pageUrl(url: string, path = "/"): string {
-  return url.trim().replace(/\/+$/, "") + path;
+  return base(url) + path;
 }
 
 /** The answer is JSON or a one-message event stream, depending on the server. */
