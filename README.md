@@ -6,13 +6,14 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 
 - **Today**: reminders and events that are due; mark a reminder done.
 - **Add Reminder**: text, optional due time, just you or shared.
+- **Add Event**: title, start and optional end, or all day.
 - **Add Note**: Markdown, just you or shared.
 - **Shopping List**: see the shared list and add items by typing.
 - **Ask Assistant**: ask a question about your household and ask more.
 
 ## Set up
 
-1. In your sign-in provider (authentik), add the redirect URI `https://raycast.com/redirect/extension` to the provider Homeloom uses.
+1. In your sign-in provider (authentik), add the redirect URI `https://raycast.com/redirect?packageName=Extension` to the provider Homeloom uses.
 2. In Raycast, open any Homeloom command and enter your Homeloom address, the provider's sign-in address (its OpenID Configuration Issuer), and its client ID and secret.
 3. The first command opens a browser window to sign in. After that it stays signed in.
 

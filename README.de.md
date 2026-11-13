@@ -6,13 +6,14 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 
 - **Today** (Heute): fällige Erinnerungen und Termine; Erinnerungen abhaken.
 - **Add Reminder**: Text, optional Fälligkeit, nur du oder geteilt.
+- **Add Event**: Titel, Beginn und optional Ende, oder ganztägig.
 - **Add Note**: Markdown, nur du oder geteilt.
 - **Shopping List**: die gemeinsame Liste ansehen und Dinge eintippen.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.
 
 ## Einrichten
 
-1. Trag in deinem Anmeldedienst (authentik) beim Provider, den Homeloom nutzt, die Weiterleitungs-URI `https://raycast.com/redirect/extension` ein.
+1. Trag in deinem Anmeldedienst (authentik) beim Provider, den Homeloom nutzt, die Weiterleitungs-URI `https://raycast.com/redirect?packageName=Extension` ein.
 2. Öffne in Raycast einen Homeloom-Befehl und trage deine Homeloom-Adresse, die Anmeldeadresse des Providers (sein OpenID Configuration Issuer) sowie Client-ID und Secret ein.
 3. Der erste Befehl öffnet ein Browserfenster zum Anmelden. Danach bleibst du angemeldet.
 
