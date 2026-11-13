@@ -12,7 +12,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 
 ## Einrichten
 
-1. Trag in deinem Anmeldedienst (authentik) beim Provider, den Homeloom nutzt, die Weiterleitungs-URI `https://raycast.com/redirect/extension` ein.
+1. Trag in deinem Anmeldedienst (authentik) beim Provider, den Homeloom nutzt, die Weiterleitungs-URI `https://raycast.com/redirect?packageName=Extension` ein.
 2. Öffne in Raycast einen Homeloom-Befehl und trage deine Homeloom-Adresse, die Anmeldeadresse des Providers (sein OpenID Configuration Issuer) sowie Client-ID und Secret ein.
 3. Der erste Befehl öffnet ein Browserfenster zum Anmelden. Danach bleibst du angemeldet.
 

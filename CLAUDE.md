@@ -5,7 +5,7 @@ A Raycast extension for [Homeloom](https://github.com/mariusgassen/homeloom), th
 ## How it talks to Homeloom
 
 - Through Homeloom's REST API (`{url}/v1`, contract in `apps/api/api/openapi.yaml` in the Homeloom repo; read it before adding a command), as the signed-in person. The extension is not an assistant, so it does not use the MCP endpoint.
-- Sign-in is authentik OAuth with PKCE (`src/lib/auth.ts`). It reuses Homeloom's own authentik client: its client ID and secret are preferences, the redirect URI `https://raycast.com/redirect/extension` is added to that provider, and the API needs no change. The issuer is a preference too (discovery from it).
+- Sign-in is authentik OAuth with PKCE (`src/lib/auth.ts`). It reuses Homeloom's own authentik client: its client ID and secret are preferences, the redirect URI `https://raycast.com/redirect?packageName=Extension` is added to that provider, and the API needs no change. The issuer is a preference too (discovery from it).
 - The household is the person's first one, cached in LocalStorage.
 - Everything goes through `src/lib/homeloom.ts`. Commands never call `fetch`.
 - Never log or show the client secret, tokens or note bodies.
