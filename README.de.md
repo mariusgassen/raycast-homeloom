@@ -6,6 +6,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 
 - **Today** (Heute): fällige Erinnerungen und Termine; Erinnerungen abhaken.
 - **Add Reminder**: Text, optional Fälligkeit, nur du oder geteilt.
+- **Add Event**: Titel, Beginn und optional Ende, oder ganztägig.
 - **Add Note**: Markdown, nur du oder geteilt.
 - **Shopping List**: die gemeinsame Liste ansehen und Dinge eintippen.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.

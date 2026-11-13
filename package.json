@@ -61,6 +61,13 @@
       "mode": "view"
     },
     {
+      "name": "add-event",
+      "title": "Add Event",
+      "subtitle": "Homeloom",
+      "description": "Add an event to the Homeloom calendar.",
+      "mode": "view"
+    },
+    {
       "name": "add-note",
       "title": "Add Note",
       "subtitle": "Homeloom",

@@ -132,6 +132,21 @@ export const addReminder = async (text: string, visibility: "private" | "shared"
     visibility,
     ...(due ? { dueAt: due.toISOString() } : {}),
   });
+export const addEvent = async (
+  text: string,
+  visibility: "private" | "shared",
+  starts: Date,
+  ends?: Date,
+  allDay = false,
+) =>
+  api<Entry>("POST", await inHousehold("/entries"), {
+    kind: "event",
+    text,
+    visibility,
+    startsAt: starts.toISOString(),
+    allDay,
+    ...(ends ? { endsAt: ends.toISOString() } : {}),
+  });
 export const addNote = async (text: string, visibility: "private" | "shared") =>
   api<Entry>("POST", await inHousehold("/entries"), { kind: "note", text, visibility });
 export const completeReminder = (id: string) => api<Entry>("PUT", `/entries/${id}/done`);
