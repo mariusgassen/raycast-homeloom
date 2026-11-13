@@ -4,11 +4,11 @@ A Raycast extension for [Homeloom](https://github.com/mariusgassen/homeloom), th
 
 ## How it talks to Homeloom
 
-- Only through Homeloom's MCP endpoint (`POST {url}/mcp`, stateless streamable HTTP) with a personal key (`hlp_…`) as `Authorization: Bearer`. The key is made in Homeloom under Settings › Other apps (access: tools) and acts as that member in one household.
-- The REST API (`/v1`) takes only authentik tokens or the session cookie, so this extension can't use it. Moving to authentik OAuth (Raycast PKCE, public provider, client ID in `OIDC_CLIENT_IDS`) would unlock the assistant chat; not done on purpose.
-- Tools used: `list_entries`, `add_reminder`, `add_note`, `complete_reminder`, `list_shopping`, `add_to_shopping_list`. Their schemas live in `apps/api/internal/core/service/assistant_tools.go` in the Homeloom repo. Read it before adding a command; it is the contract.
+- Through Homeloom's REST API (`{url}/v1`, contract in `apps/api/api/openapi.yaml` in the Homeloom repo; read it before adding a command), as the signed-in person. The extension is not an assistant, so it does not use the MCP endpoint.
+- Sign-in is authentik OAuth with PKCE (`src/lib/auth.ts`). It reuses Homeloom's own authentik client: its client ID and secret are preferences, the redirect URI `https://raycast.com/redirect/extension` is added to that provider, and the API needs no change. The issuer is a preference too (discovery from it).
+- The household is the person's first one, cached in LocalStorage.
 - Everything goes through `src/lib/homeloom.ts`. Commands never call `fetch`.
-- Never log or show the key or note bodies.
+- Never log or show the client secret, tokens or note bodies.
 
 ## Layout
 

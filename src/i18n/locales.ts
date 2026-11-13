@@ -24,7 +24,10 @@ const en = {
   allDay: "All day",
   note: "Note",
   noteHelp: "Markdown. A first line like “# Title” becomes the title.",
-  unauthorized: "The key isn't valid. Make a new one in Settings › Other apps, for Assistant.",
+  unauthorized: "Signing in didn't work. Check the client ID and secret in the extension settings.",
+  signInHelp: "Sign in to Homeloom to use your household.",
+  signInFailed: "Signing in failed. Check the sign-in address, client ID and secret.",
+  noHousehold: "You're not in a household yet. Open Homeloom to start one.",
   unreachable: "Homeloom can't be reached",
 };
 
@@ -55,7 +58,10 @@ const de: typeof en = {
   note: "Notiz",
   noteHelp: "Markdown. Eine erste Zeile wie „# Titel“ wird zum Titel.",
   unauthorized:
-    "Der Schlüssel gilt nicht. Mach unter Einstellungen › Andere Apps einen neuen, für Assistent.",
+    "Die Anmeldung hat nicht geklappt. Prüf Client-ID und Secret in den Einstellungen der Erweiterung.",
+  signInHelp: "Melde dich bei Homeloom an, um deinen Haushalt zu nutzen.",
+  signInFailed: "Die Anmeldung ist fehlgeschlagen. Prüf Adresse, Client-ID und Secret.",
+  noHousehold: "Du bist noch in keinem Haushalt. Öffne Homeloom, um einen zu starten.",
   unreachable: "Homeloom ist nicht erreichbar",
 };
 

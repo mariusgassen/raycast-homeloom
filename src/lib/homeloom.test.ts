@@ -1,37 +1,41 @@
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@raycast/api", () => ({
-  getPreferenceValues: () => ({ url: "https://h.example", key: "hlp_x" }),
+  getPreferenceValues: () => ({ url: "https://h.example" }),
+  LocalStorage: {},
+  OAuth: { RedirectMethod: { Web: "web" }, PKCEClient: class {} },
 }));
 
-import { endpoint, forToday, localStamp, pageUrl, parseRpc, type Entry } from "./homeloom";
+import { forToday, pageUrl, type Entry } from "./homeloom";
+import { issuerBase } from "./auth";
 import { pickLang } from "./i18n";
 import { catalogs } from "../i18n/locales";
 
-const e = (p: Partial<Entry>): Entry => ({ id: "1", visibility: "shared", author: "A", ...p });
+const e = (p: Partial<Entry>): Entry => ({
+  id: "1",
+  kind: "reminder",
+  visibility: "shared",
+  authorId: "A",
+  sealed: false,
+  allDay: false,
+  ...p,
+});
 
-describe("endpoint", () => {
-  it("adds /mcp once", () => {
-    expect(endpoint("https://h.example/")).toBe("https://h.example/mcp");
-    expect(endpoint(" https://h.example ")).toBe("https://h.example/mcp");
-    expect(endpoint("https://h.example/mcp")).toBe("https://h.example/mcp");
-  });
+describe("pageUrl", () => {
   it("builds app page URLs, also from the address Settings shows", () => {
     expect(pageUrl("https://h.example/mcp", "/lists")).toBe("https://h.example/lists");
     expect(pageUrl("https://h.example/")).toBe("https://h.example/");
-    expect(pageUrl("https://h.example/", "/lists?show=shopping")).toBe(
-      "https://h.example/lists?show=shopping",
-    );
   });
 });
 
-describe("parseRpc", () => {
-  it("reads plain JSON", () => {
-    expect(parseRpc('{"result":{"content":[{"text":"[]"}]}}').result?.content?.[0].text).toBe("[]");
-  });
-  it("reads an event stream", () => {
-    const body = 'event: message\ndata: {"result":{"content":[{"text":"[1]"}]}}\n\n';
-    expect(parseRpc(body).result?.content?.[0].text).toBe("[1]");
+describe("issuerBase", () => {
+  it("ends with one slash", () => {
+    expect(issuerBase(" https://a.example/application/o/h ")).toBe(
+      "https://a.example/application/o/h/",
+    );
+    expect(issuerBase("https://a.example/application/o/h//")).toBe(
+      "https://a.example/application/o/h/",
+    );
   });
 });
 
@@ -40,23 +44,21 @@ describe("forToday", () => {
   it("splits overdue reminders from today's entries and drops the rest", () => {
     const r = forToday(
       [
-        e({ id: "a", due: "2026-11-03T09:00" }),
-        e({ id: "b", due: "2026-11-04T18:00" }),
-        e({ id: "c", starts: "2026-11-04", all_day: true }),
-        e({ id: "d", due: "2026-11-05T08:00" }),
-        e({ id: "f", due: "2026-11-04T08:00", done: true }),
-        e({ id: "g", starts: "2026-11-03T10:00" }),
+        e({ id: "a", dueAt: new Date(2026, 10, 3, 9).toISOString() }),
+        e({ id: "b", dueAt: new Date(2026, 10, 4, 18).toISOString() }),
+        e({ id: "c", startsAt: new Date(2026, 10, 4, 0, 30).toISOString(), allDay: true }),
+        e({ id: "d", dueAt: new Date(2026, 10, 5, 8).toISOString() }),
+        e({
+          id: "f",
+          dueAt: new Date(2026, 10, 4, 8).toISOString(),
+          doneAt: new Date(2026, 10, 4, 8, 5).toISOString(),
+        }),
+        e({ id: "g", startsAt: new Date(2026, 10, 3, 10).toISOString() }),
       ],
       now,
     );
     expect(r.overdue.map((x) => x.id)).toEqual(["a"]);
     expect(r.today.map((x) => x.id)).toEqual(["c", "b"]);
-  });
-});
-
-describe("localStamp", () => {
-  it("formats local time", () => {
-    expect(localStamp(new Date(2026, 0, 2, 3, 4))).toBe("2026-01-02T03:04");
   });
 });
 
