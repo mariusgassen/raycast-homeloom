@@ -24,7 +24,7 @@ const en = {
   allDay: "All day",
   note: "Note",
   noteHelp: "Markdown. A first line like “# Title” becomes the title.",
-  unauthorized: "The key isn't valid. Make a new one in Settings › Other apps.",
+  unauthorized: "The key isn't valid. Make a new one in Settings › Other apps, for Assistant.",
   unreachable: "Homeloom can't be reached",
 };
 
@@ -54,7 +54,8 @@ const de: typeof en = {
   allDay: "Ganztägig",
   note: "Notiz",
   noteHelp: "Markdown. Eine erste Zeile wie „# Titel“ wird zum Titel.",
-  unauthorized: "Der Schlüssel gilt nicht. Mach unter Einstellungen › Andere Apps einen neuen.",
+  unauthorized:
+    "Der Schlüssel gilt nicht. Mach unter Einstellungen › Andere Apps einen neuen, für Assistent.",
   unreachable: "Homeloom ist nicht erreichbar",
 };
 
