@@ -159,6 +159,10 @@ export const addToShopping = async (items: string[]) => {
   return listShopping();
 };
 
+/** Ticks a shopping item off, or puts it back. */
+export const tickShopping = async (id: string, done: boolean) =>
+  api<ShoppingItem>(done ? "PUT" : "DELETE", await inHousehold(`/shopping-list/items/${id}/done`));
+
 /** The local calendar day of a timestamp, YYYY-MM-DD. */
 export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");
