@@ -89,6 +89,20 @@
       "mode": "view"
     },
     {
+      "name": "chores",
+      "title": "Chores",
+      "subtitle": "Homeloom",
+      "description": "What is still to do around the house.",
+      "mode": "view"
+    },
+    {
+      "name": "add-chore",
+      "title": "Add Chore",
+      "subtitle": "Homeloom",
+      "description": "Set up a chore.",
+      "mode": "view"
+    },
+    {
       "name": "notes",
       "title": "Notes",
       "subtitle": "Homeloom",

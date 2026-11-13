@@ -211,6 +211,23 @@ export const getBalance = async () => api<Balance>("GET", await inHousehold("/ba
 export const settleUp = async (from: string, to: string, cents: number) =>
   api<unknown>("POST", await inHousehold("/settlements"), { from, to, cents });
 
+export type Repeat = "never" | "daily" | "weekly" | "monthly" | "yearly";
+
+export interface Chore {
+  id: string;
+  title: string;
+  points: number;
+  repeat: Repeat;
+  assigneeId?: string;
+  dueOn: string;
+}
+
+export const listChores = async () => api<Chore[]>("GET", await inHousehold("/chores"));
+export const addChore = async (c: { title: string; points: number; repeat: Repeat }) =>
+  api<Chore>("POST", await inHousehold("/chores"), c);
+export const completeChore = async (id: string) =>
+  api<unknown>("POST", await inHousehold(`/chores/${id}/done`));
+
 /** Ticks a shopping item off, or puts it back. */
 export const tickShopping = async (id: string, done: boolean) =>
   api<ShoppingItem>(done ? "PUT" : "DELETE", await inHousehold(`/shopping-list/items/${id}/done`));
