@@ -8,6 +8,8 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Add Reminder**: Text, optional Fälligkeit, nur du oder geteilt.
 - **Add Event**: Titel, Beginn und optional Ende, oder ganztägig.
 - **Add Note**: Markdown, nur du oder geteilt.
+- **Add Expense**: Betrag, Kategorie und wer bezahlt hat, gleichmäßig geteilt.
+- **Money**: wer wem was schuldet, und ausgleichen.
 - **Notes**: deine Notizen lesen und bearbeiten.
 - **Shopping List**: die gemeinsame Liste ansehen und Dinge eintippen, abhaken.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.

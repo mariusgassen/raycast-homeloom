@@ -75,6 +75,20 @@
       "mode": "view"
     },
     {
+      "name": "add-expense",
+      "title": "Add Expense",
+      "subtitle": "Homeloom",
+      "description": "Add an expense, split evenly.",
+      "mode": "view"
+    },
+    {
+      "name": "money",
+      "title": "Money",
+      "subtitle": "Homeloom",
+      "description": "Who owes whom, and settle up.",
+      "mode": "view"
+    },
+    {
       "name": "notes",
       "title": "Notes",
       "subtitle": "Homeloom",

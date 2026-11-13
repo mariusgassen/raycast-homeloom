@@ -116,11 +116,48 @@ export async function householdId(): Promise<string> {
   return all[0].id;
 }
 
+/** The household's members, in the order Homeloom lists them. */
+export async function members(): Promise<{ id: string; name: string }[]> {
+  const h = await api<{ members: Member[] }>("GET", `/households/${await householdId()}`);
+  return h.members.map((m) => m.user);
+}
+
 /** Member names by id, to say who a reminder is for. */
 export async function memberNames(): Promise<Record<string, string>> {
-  const h = await api<{ members: Member[] }>("GET", `/households/${await householdId()}`);
-  return Object.fromEntries(h.members.map((m) => [m.user.id, m.user.name]));
+  return Object.fromEntries((await members()).map((m) => [m.id, m.name]));
 }
+
+export const me = () => api<{ id: string; name: string }>("GET", "/me");
+
+export const CATEGORIES = [
+  "groceries",
+  "dining",
+  "home",
+  "utilities",
+  "transport",
+  "travel",
+  "fun",
+  "health",
+  "gifts",
+  "other",
+] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export interface Balance {
+  members: { userId: string; cents: number }[];
+  transfers: { from: string; to: string; cents: number }[];
+}
+
+/** "12,50" or "12.5" as cents; null when it isn't a positive amount. */
+export function parseEuros(input: string): number | null {
+  const s = input.trim().replace(/\s/g, "").replace(",", ".");
+  if (!/^\d+(\.\d{1,2})?$/.test(s)) return null;
+  const cents = Math.round(Number(s) * 100);
+  return cents > 0 ? cents : null;
+}
+
+export const euros = (cents: number) =>
+  new Intl.NumberFormat(undefined, { style: "currency", currency: "EUR" }).format(cents / 100);
 
 export const inHousehold = async (path: string) => `/households/${await householdId()}${path}`;
 
@@ -163,6 +200,16 @@ export const addToShopping = async (items: string[]) => {
 /** Rewrites a note's text. A note that opens later keeps its time, so only plain ones are edited. */
 export const updateNote = (id: string, text: string, visibility: "private" | "shared") =>
   api<Entry>("PUT", `/entries/${id}`, { text, visibility });
+
+export const addExpense = async (e: {
+  cents: number;
+  category: Category;
+  paidBy: string;
+  note?: string;
+}) => api<unknown>("POST", await inHousehold("/expenses"), e);
+export const getBalance = async () => api<Balance>("GET", await inHousehold("/balance"));
+export const settleUp = async (from: string, to: string, cents: number) =>
+  api<unknown>("POST", await inHousehold("/settlements"), { from, to, cents });
 
 /** Ticks a shopping item off, or puts it back. */
 export const tickShopping = async (id: string, done: boolean) =>
