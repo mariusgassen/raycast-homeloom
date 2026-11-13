@@ -9,11 +9,11 @@ import {
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
 import { useState } from "react";
-import { addToShopping, listShopping, pageUrl } from "./lib/homeloom";
+import { addToShopping, listShopping, pageUrl, tickShopping } from "./lib/homeloom";
 import { t } from "./lib/i18n";
 
 export default function Command() {
-  const { data, isLoading, mutate } = useCachedPromise(listShopping);
+  const { data, isLoading, mutate, revalidate } = useCachedPromise(listShopping);
   const [text, setText] = useState("");
   const { url } = getPreferenceValues<{ url: string }>();
   const item = text.trim();
@@ -23,6 +23,19 @@ export default function Command() {
       await mutate(addToShopping([item]), { shouldRevalidateAfter: false });
       await showToast({ style: Toast.Style.Success, title: t("itemAdded"), message: item });
       setText("");
+    } catch (e) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: t("failed"),
+        message: e instanceof Error ? e.message : undefined,
+      });
+    }
+  }
+
+  async function tick(id: string, done: boolean) {
+    try {
+      await tickShopping(id, done);
+      revalidate();
     } catch (e) {
       await showToast({
         style: Toast.Style.Failure,
@@ -67,7 +80,16 @@ export default function Command() {
             icon={Icon.Circle}
             title={i.text}
             subtitle={i.recipe}
-            actions={<ActionPanel>{open}</ActionPanel>}
+            actions={
+              <ActionPanel>
+                <Action
+                  title={t("markDone")}
+                  icon={Icon.CheckCircle}
+                  onAction={() => tick(i.id, true)}
+                />
+                {open}
+              </ActionPanel>
+            }
           />
         ))}
       </List.Section>
@@ -78,7 +100,16 @@ export default function Command() {
               key={`d${n}`}
               icon={Icon.CheckCircle}
               title={i.text}
-              actions={<ActionPanel>{open}</ActionPanel>}
+              actions={
+                <ActionPanel>
+                  <Action
+                    title={t("putBack")}
+                    icon={Icon.Circle}
+                    onAction={() => tick(i.id, false)}
+                  />
+                  {open}
+                </ActionPanel>
+              }
             />
           ))}
         </List.Section>

@@ -8,7 +8,7 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 - **Add Reminder**: text, optional due time, just you or shared.
 - **Add Event**: title, start and optional end, or all day.
 - **Add Note**: Markdown, just you or shared.
-- **Shopping List**: see the shared list and add items by typing.
+- **Shopping List**: see the shared list and add items by typing, tick them off.
 - **Ask Assistant**: ask a question about your household and ask more.
 
 ## Set up
