@@ -12,6 +12,8 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Money**: wer wem was schuldet, und ausgleichen.
 - **Chores**: was noch zu tun ist, abhaken.
 - **Add Chore**: ein Titel, der Aufwand und wie oft es wiederkommt.
+- **Wishlist** und **Add Wish**: die gemeinsamen Wünsche, die größten zuerst.
+- **Gift Ideas** und **Add Gift Idea**: Ideen, die nur du siehst.
 - **Notes**: deine Notizen lesen und bearbeiten.
 - **Shopping List**: die gemeinsame Liste ansehen und Dinge eintippen, abhaken.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.

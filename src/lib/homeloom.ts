@@ -228,6 +228,43 @@ export const addChore = async (c: { title: string; points: number; repeat: Repea
 export const completeChore = async (id: string) =>
   api<unknown>("POST", await inHousehold(`/chores/${id}/done`));
 
+export interface Wish {
+  id: string;
+  title: string;
+  note: string;
+  url: string;
+  priceCents?: number;
+  hearts: number;
+  gotAt?: string;
+}
+
+export interface GiftIdea {
+  id: string;
+  forId: string;
+  text: string;
+  given: boolean;
+}
+
+export const listWishes = async () => api<Wish[]>("GET", await inHousehold("/wishes"));
+export const addWish = async (w: {
+  title: string;
+  note?: string;
+  url?: string;
+  priceCents?: number;
+}) => api<Wish>("POST", await inHousehold("/wishes"), w);
+export const wishGot = async (id: string, got: boolean) =>
+  api<Wish>(got ? "PUT" : "DELETE", await inHousehold(`/wishes/${id}/got`));
+export const voteWish = async (id: string, hearts: number) =>
+  api<Wish>("PUT", await inHousehold(`/wishes/${id}/vote`), { hearts });
+
+/** Your own gift ideas, open ones first; nobody else ever sees them. */
+export const listGiftIdeas = async () =>
+  (await api<{ ideas: GiftIdea[] }>("GET", await inHousehold("/gifts"))).ideas;
+export const addGiftIdea = async (forId: string, text: string) =>
+  api<GiftIdea>("POST", await inHousehold("/gifts/ideas"), { forId, text });
+export const giftGiven = async (id: string, given: boolean) =>
+  api<GiftIdea>("PATCH", await inHousehold(`/gifts/ideas/${id}`), { given });
+
 /** Ticks a shopping item off, or puts it back. */
 export const tickShopping = async (id: string, done: boolean) =>
   api<ShoppingItem>(done ? "PUT" : "DELETE", await inHousehold(`/shopping-list/items/${id}/done`));
