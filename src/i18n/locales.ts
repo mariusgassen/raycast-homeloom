@@ -11,6 +11,12 @@ const en = {
   allDayEvent: "All day",
   endBeforeStart: "The end is before the start",
   noteAdded: "Note added",
+  noteSaved: "Note saved",
+  notes: "Notes",
+  noNotes: "No notes yet",
+  edit: "Edit",
+  save: "Save",
+  sealedNote: "Opens later",
   itemAdded: "Added",
   failed: "That didn't work",
   today: "Today",
@@ -38,7 +44,7 @@ const en = {
   ask: "Ask",
   question: "Question",
   followUp: "Ask more",
-  copyAnswer: "Copy answer",
+  copyAnswer: "Copy",
 };
 
 const de: typeof en = {
@@ -54,6 +60,12 @@ const de: typeof en = {
   allDayEvent: "Ganztägig",
   endBeforeStart: "Das Ende liegt vor dem Beginn",
   noteAdded: "Notiz hinzugefügt",
+  noteSaved: "Notiz gespeichert",
+  notes: "Notizen",
+  noNotes: "Noch keine Notizen",
+  edit: "Bearbeiten",
+  save: "Speichern",
+  sealedNote: "Öffnet sich später",
   itemAdded: "Hinzugefügt",
   failed: "Das hat nicht geklappt",
   today: "Heute",
@@ -82,7 +94,7 @@ const de: typeof en = {
   ask: "Fragen",
   question: "Frage",
   followUp: "Nachfragen",
-  copyAnswer: "Antwort kopieren",
+  copyAnswer: "Kopieren",
 };
 
 export type Key = keyof typeof en;
