@@ -22,6 +22,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Someday** und **Add to Someday**: Filme, Bücher und Orte für irgendwann.
 - **Questions**: offene Fragen beantworten und geöffnete zusammen lesen.
 - **Grateful Today**: die Dankbarkeitszeile für heute schreiben.
+- **Dinner & Recipes**: geplante Abendessen ansehen, Rezepte lesen, Zutaten auf die Einkaufsliste setzen und Ideen holen.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.
 
 ## Einrichten

@@ -203,6 +203,13 @@
       "mode": "view"
     },
     {
+      "name": "cook",
+      "title": "Dinner & Recipes",
+      "subtitle": "Homeloom",
+      "description": "See planned dinners, read recipes, and get cooking ideas.",
+      "mode": "view"
+    },
+    {
       "name": "assistant",
       "title": "Ask Assistant",
       "subtitle": "Homeloom",

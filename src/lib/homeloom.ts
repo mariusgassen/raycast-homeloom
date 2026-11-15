@@ -316,6 +316,63 @@ export const answerQuestion = async (id: string, text: string) =>
 export const addGratitude = async (text: string, visibility: "private" | "shared") =>
   api<unknown>("POST", await inHousehold("/moments"), { kind: "gratitude", text, visibility });
 
+export interface RecipeSummary {
+  slug: string;
+  name: string;
+  description?: string;
+  totalTime?: string;
+  tags: string[];
+}
+
+export interface Ingredient {
+  id: string;
+  text: string;
+}
+
+export interface Recipe {
+  slug: string;
+  name: string;
+  description?: string;
+  totalTime?: string;
+  servings?: string;
+  tags: string[];
+  ingredients: Ingredient[];
+  steps: string[];
+}
+
+export interface PlannedMeal {
+  day: string;
+  recipe: RecipeSummary;
+  plannedBy: string;
+}
+
+export interface CookSuggestion {
+  recipe: RecipeSummary;
+  reason?: string;
+}
+
+export const getMealPlan = async (from: string, days = 7) =>
+  api<PlannedMeal[]>("GET", await inHousehold(`/meal-plan?from=${from}&days=${days}`));
+export const planMeal = async (day: string, recipe: string) =>
+  api<PlannedMeal>("PUT", await inHousehold(`/meal-plan/${day}`), { recipe });
+export const unplanMeal = async (day: string) =>
+  api<void>("DELETE", await inHousehold(`/meal-plan/${day}`));
+export const getRecipe = async (slug: string) =>
+  api<Recipe>("GET", await inHousehold(`/recipes/${encodeURIComponent(slug)}`));
+export const addRecipeToShopping = async (recipe: string, ingredientIds: string[]) =>
+  api<{ added: number; list: string }>("POST", await inHousehold("/shopping-list"), {
+    recipe,
+    ingredientIds,
+  });
+export const rateRecipe = async (slug: string, rating: "love" | "fine" | "nope") =>
+  api<unknown>("PUT", await inHousehold(`/recipes/${encodeURIComponent(slug)}/rating`), {
+    rating,
+  });
+export const suggestRecipes = async (mood: string) =>
+  api<{ suggestions: CookSuggestion[] }>("POST", await inHousehold("/cook/suggestions"), {
+    mood,
+  });
+
 /** The local calendar day of a timestamp, YYYY-MM-DD. */
 export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");
