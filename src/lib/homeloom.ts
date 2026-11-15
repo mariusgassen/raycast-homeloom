@@ -292,6 +292,30 @@ export const tickBucketItem = async (id: string, done: boolean) =>
 export const deleteBucketItem = async (id: string) =>
   api<void>("DELETE", await inHousehold(`/bucket/${id}`));
 
+export interface Answer {
+  userId: string;
+  text?: string;
+  answeredAt: string;
+}
+
+export interface Question {
+  id: string;
+  text: string;
+  askedBy: string;
+  createdAt: string;
+  revealed: boolean;
+  revealedAt?: string;
+  answers: Answer[];
+}
+
+export const listQuestions = async () => api<Question[]>("GET", await inHousehold("/questions"));
+export const askQuestion = async (text: string) =>
+  api<Question>("POST", await inHousehold("/questions"), { text });
+export const answerQuestion = async (id: string, text: string) =>
+  api<Question>("PUT", `/questions/${encodeURIComponent(id)}/answer`, { text });
+export const addGratitude = async (text: string, visibility: "private" | "shared") =>
+  api<unknown>("POST", await inHousehold("/moments"), { kind: "gratitude", text, visibility });
+
 /** The local calendar day of a timestamp, YYYY-MM-DD. */
 export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");

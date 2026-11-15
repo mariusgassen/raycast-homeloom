@@ -189,6 +189,20 @@
       "mode": "view"
     },
     {
+      "name": "questions",
+      "title": "Questions",
+      "subtitle": "Homeloom",
+      "description": "Answer and ask questions that open together.",
+      "mode": "view"
+    },
+    {
+      "name": "add-gratitude",
+      "title": "Grateful Today",
+      "subtitle": "Homeloom",
+      "description": "Write today's one-line gratitude.",
+      "mode": "view"
+    },
+    {
       "name": "assistant",
       "title": "Ask Assistant",
       "subtitle": "Homeloom",
