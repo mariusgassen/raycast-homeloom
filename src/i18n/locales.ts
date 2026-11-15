@@ -118,6 +118,15 @@ const en = {
   lightsOffDone: "All lights turned off",
   open: "Open",
   closed: "Closed",
+  someday: "Someday",
+  noBucket: "Nothing saved for someday yet",
+  bucketAdded: "Saved for someday",
+  kind: "Kind",
+  all: "All",
+  watch: "Watch",
+  read: "Read",
+  visit: "Visit",
+  remove: "Remove",
 };
 
 const de: typeof en = {
@@ -241,6 +250,15 @@ const de: typeof en = {
   lightsOffDone: "Alle Lichter ausgeschaltet",
   open: "Offen",
   closed: "Geschlossen",
+  someday: "Irgendwann",
+  noBucket: "Noch nichts für irgendwann gemerkt",
+  bucketAdded: "Für irgendwann gemerkt",
+  kind: "Art",
+  all: "Alle",
+  watch: "Schauen",
+  read: "Lesen",
+  visit: "Hinfahren",
+  remove: "Entfernen",
 };
 
 export type Key = keyof typeof en;
