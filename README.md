@@ -5,6 +5,7 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 ## Commands
 
 - **Today**: reminders and events that are due; mark a reminder done.
+- **Today in Menu Bar**: see what is due today at a glance from the menu bar.
 - **Add Reminder**: text, optional due time, just you or shared.
 - **Add Event**: title, start and optional end, or all day.
 - **Add Note**: Markdown, just you or shared.

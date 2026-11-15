@@ -54,6 +54,14 @@
       "mode": "view"
     },
     {
+      "name": "today-menu-bar",
+      "title": "Today in Menu Bar",
+      "subtitle": "Homeloom",
+      "description": "Overdue and today's reminders and events in the menu bar.",
+      "mode": "menu-bar",
+      "interval": "15m"
+    },
+    {
       "name": "add-reminder",
       "title": "Add Reminder",
       "subtitle": "Homeloom",
