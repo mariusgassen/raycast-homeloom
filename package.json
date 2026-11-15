@@ -153,6 +153,21 @@
       "mode": "view"
     },
     {
+      "name": "quick-add-shopping",
+      "title": "Quick Add to Shopping List",
+      "subtitle": "Homeloom",
+      "description": "Add an item straight to the shopping list.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "item",
+          "type": "text",
+          "placeholder": "Item",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "assistant",
       "title": "Ask Assistant",
       "subtitle": "Homeloom",

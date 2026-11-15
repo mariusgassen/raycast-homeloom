@@ -16,7 +16,8 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 - **Wishlist** and **Add Wish**: the shared wishes, most wanted first.
 - **Gift Ideas** and **Add Gift Idea**: ideas only you see.
 - **Notes**: read your notes and edit them.
-- **Shopping List**: see the shared list and add items by typing, tick them off.
+- **Shopping List**: see the shared list, add items by typing, tick them off and clear done items.
+- **Quick Add to Shopping List**: add an item straight from Raycast without opening a view.
 - **Ask Assistant**: ask a question about your household and ask more.
 
 ## Set up
