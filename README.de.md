@@ -18,6 +18,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Notes**: deine Notizen lesen und bearbeiten.
 - **Shopping List**: die gemeinsame Liste ansehen, Dinge eintippen, abhaken und erledigte entfernen.
 - **Quick Add to Shopping List**: direkt aus Raycast einen Punkt auf die Einkaufsliste setzen.
+- **Smart Home**: Lichter und Szenen schalten, Messwerte ansehen.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.
 
 ## Einrichten

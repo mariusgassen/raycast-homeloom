@@ -6,7 +6,7 @@ vi.mock("@raycast/api", () => ({
   OAuth: { RedirectMethod: { Web: "web" }, PKCEClient: class {} },
 }));
 
-import { forToday, pageUrl, parseEuros, type Entry } from "./homeloom";
+import { forToday, pageUrl, parseEuros, shortName, type Entry } from "./homeloom";
 import { issuerBase } from "./auth";
 import { parseSse } from "./chat";
 import { pickLang } from "./i18n";
@@ -98,5 +98,14 @@ describe("parseEuros", () => {
   });
   it("refuses anything else", () => {
     for (const bad of ["", "0", "-3", "1,234", "abc", "1e3"]) expect(parseEuros(bad)).toBeNull();
+  });
+});
+
+describe("shortName", () => {
+  it("drops the leading room name when separated cleanly", () => {
+    expect(shortName("Kitchen Ceiling", "Kitchen")).toBe("Ceiling");
+    expect(shortName("Wohnzimmer – Stehlampe", "Wohnzimmer")).toBe("Stehlampe");
+    expect(shortName("Küchenlicht", "Küche")).toBe("Küchenlicht");
+    expect(shortName("Lamp")).toBe("Lamp");
   });
 });

@@ -279,6 +279,66 @@ export function localDay(d: Date): string {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 
+export interface Room {
+  id: string;
+  name: string;
+}
+
+export interface Scene {
+  id: string;
+  name: string;
+  room?: string;
+}
+
+export interface Light {
+  id: string;
+  name: string;
+  room?: string;
+  on: boolean;
+}
+
+export interface Reading {
+  id: string;
+  name: string;
+  room?: string;
+  kind: string;
+  value?: number;
+  unit?: string;
+  on?: boolean;
+}
+
+export interface HomeState {
+  connected: boolean;
+  rooms: Room[];
+  scenes: Scene[];
+  lights: Light[];
+  readings: Reading[];
+}
+
+export const getHome = async () => api<HomeState>("GET", await inHousehold("/home"));
+export const activateScene = async (sceneId: string) =>
+  api<void>("POST", await inHousehold(`/home/scenes/${encodeURIComponent(sceneId)}`));
+export const toggleLight = async (lightId: string) =>
+  api<Light>("POST", await inHousehold(`/home/lights/${encodeURIComponent(lightId)}/toggle`));
+
+/** Drops a leading room name from a device or scene name when separated cleanly. */
+export function shortName(name: string, room?: string): string {
+  const prefix = room?.trim();
+  if (!prefix) return name;
+  const start = name.trimStart();
+  if (
+    start.length <= prefix.length ||
+    start.slice(0, prefix.length).toLocaleLowerCase() !== prefix.toLocaleLowerCase()
+  ) {
+    return name;
+  }
+  const rest = start.slice(prefix.length);
+  const match = rest.match(/^[\s\-–—:_.·|/]+/);
+  if (!match) return name;
+  const short = rest.slice(match[0].length).trim();
+  return short || name;
+}
+
 /** Reminders that are due today or earlier, and today's events; the rest is not for today. */
 export function forToday(entries: Entry[], now: Date): { overdue: Entry[]; today: Entry[] } {
   const day = localDay(now);
