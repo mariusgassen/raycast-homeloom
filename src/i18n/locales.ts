@@ -103,6 +103,21 @@ const en = {
   todayCount: "{n} for today",
   openToday: "Open Today",
   addReminder: "Add Reminder",
+  homeNotConnected: "Home not connected",
+  homeConnectInApp: "Open Homeloom to connect your smart home account.",
+  homeEmpty: "Nothing to switch or read",
+  scenes: "Scenes",
+  scene: "Scene",
+  activateScene: "Activate Scene",
+  sceneOn: "Scene on",
+  on: "On",
+  off: "Off",
+  turnOn: "Turn On",
+  turnOff: "Turn Off",
+  allLightsOff: "All Lights Off",
+  lightsOffDone: "All lights turned off",
+  open: "Open",
+  closed: "Closed",
 };
 
 const de: typeof en = {
@@ -211,6 +226,21 @@ const de: typeof en = {
   todayCount: "{n} für heute",
   openToday: "Heute öffnen",
   addReminder: "Erinnerung hinzufügen",
+  homeNotConnected: "Zuhause nicht verbunden",
+  homeConnectInApp: "Öffne Homeloom, um dein Smart-Home-Konto zu verbinden.",
+  homeEmpty: "Nichts zu schalten oder zu lesen",
+  scenes: "Szenen",
+  scene: "Szene",
+  activateScene: "Szene einschalten",
+  sceneOn: "Szene eingeschaltet",
+  on: "An",
+  off: "Aus",
+  turnOn: "Einschalten",
+  turnOff: "Ausschalten",
+  allLightsOff: "Alle Lichter aus",
+  lightsOffDone: "Alle Lichter ausgeschaltet",
+  open: "Offen",
+  closed: "Geschlossen",
 };
 
 export type Key = keyof typeof en;

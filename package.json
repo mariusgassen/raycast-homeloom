@@ -168,6 +168,13 @@
       ]
     },
     {
+      "name": "home",
+      "title": "Smart Home",
+      "subtitle": "Homeloom",
+      "description": "Switch lights and scenes, and check sensors.",
+      "mode": "view"
+    },
+    {
       "name": "assistant",
       "title": "Ask Assistant",
       "subtitle": "Homeloom",
