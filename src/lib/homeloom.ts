@@ -269,6 +269,10 @@ export const giftGiven = async (id: string, given: boolean) =>
 export const tickShopping = async (id: string, done: boolean) =>
   api<ShoppingItem>(done ? "PUT" : "DELETE", await inHousehold(`/shopping-list/items/${id}/done`));
 
+/** Removes all ticked-off items from the shopping list. */
+export const clearDoneShopping = async () =>
+  api<void>("DELETE", await inHousehold("/shopping-list/done"));
+
 /** The local calendar day of a timestamp, YYYY-MM-DD. */
 export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");

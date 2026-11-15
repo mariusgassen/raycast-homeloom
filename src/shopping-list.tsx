@@ -9,7 +9,13 @@ import {
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
 import { useState } from "react";
-import { addToShopping, listShopping, pageUrl, tickShopping } from "./lib/homeloom";
+import {
+  addToShopping,
+  clearDoneShopping,
+  listShopping,
+  pageUrl,
+  tickShopping,
+} from "./lib/homeloom";
 import { t } from "./lib/i18n";
 
 export default function Command() {
@@ -45,11 +51,42 @@ export default function Command() {
     }
   }
 
+  async function clearDone() {
+    try {
+      await mutate(
+        clearDoneShopping().then(() => (data ?? []).filter((i) => !i.done)),
+        {
+          shouldRevalidateAfter: false,
+        },
+      );
+      await showToast({ style: Toast.Style.Success, title: t("doneCleared") });
+    } catch (e) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: t("failed"),
+        message: e instanceof Error ? e.message : undefined,
+      });
+    }
+  }
+
   const open = (
     <Action.OpenInBrowser title={t("openHomeloom")} url={pageUrl(url, "/lists?show=shopping")} />
   );
   const todo = (data ?? []).filter((i) => !i.done);
   const done = (data ?? []).filter((i) => i.done);
+  const clearDoneAction =
+    done.length > 0 ? (
+      <Action
+        title={t("clearDone")}
+        icon={Icon.Trash}
+        style={Action.Style.Destructive}
+        shortcut={{
+          macOS: { modifiers: ["cmd", "shift"], key: "backspace" },
+          Windows: { modifiers: ["ctrl", "shift"], key: "backspace" },
+        }}
+        onAction={clearDone}
+      />
+    ) : null;
 
   return (
     <List
@@ -70,7 +107,7 @@ export default function Command() {
           }
         />
       )}
-      {!isLoading && !item && todo.length === 0 && (
+      {!isLoading && !item && todo.length === 0 && done.length === 0 && (
         <List.EmptyView title={t("shoppingEmpty")} actions={<ActionPanel>{open}</ActionPanel>} />
       )}
       <List.Section title={t("shopping")}>
@@ -87,6 +124,7 @@ export default function Command() {
                   icon={Icon.CheckCircle}
                   onAction={() => tick(i.id, true)}
                 />
+                {clearDoneAction}
                 {open}
               </ActionPanel>
             }
@@ -107,6 +145,7 @@ export default function Command() {
                     icon={Icon.Circle}
                     onAction={() => tick(i.id, false)}
                   />
+                  {clearDoneAction}
                   {open}
                 </ActionPanel>
               }
