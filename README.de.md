@@ -5,6 +5,7 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 ## Befehle
 
 - **Today** (Heute): fällige Erinnerungen und Termine; Erinnerungen abhaken.
+- **Today in Menu Bar**: was heute ansteht auf einen Blick in der Menüleiste.
 - **Add Reminder**: Text, optional Fälligkeit, nur du oder geteilt.
 - **Add Event**: Titel, Beginn und optional Ende, oder ganztägig.
 - **Add Note**: Markdown, nur du oder geteilt.

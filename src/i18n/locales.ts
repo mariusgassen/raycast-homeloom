@@ -98,6 +98,9 @@ const en = {
   question: "Question",
   followUp: "Ask more",
   copyAnswer: "Copy",
+  todayCount: "{n} for today",
+  openToday: "Open Today",
+  addReminder: "Add Reminder",
 };
 
 const de: typeof en = {
@@ -201,6 +204,9 @@ const de: typeof en = {
   question: "Frage",
   followUp: "Nachfragen",
   copyAnswer: "Kopieren",
+  todayCount: "{n} für heute",
+  openToday: "Heute öffnen",
+  addReminder: "Erinnerung hinzufügen",
 };
 
 export type Key = keyof typeof en;
