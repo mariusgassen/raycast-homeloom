@@ -22,6 +22,7 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 - **Someday** and **Add to Someday**: things to watch, read or visit together.
 - **Questions**: answer open questions and read opened ones together.
 - **Grateful Today**: write today's one-line gratitude.
+- **Dinner & Recipes**: see planned dinners, view recipes, put ingredients on the shopping list, and get ideas.
 - **Ask Assistant**: ask a question about your household and ask more.
 
 ## Set up
