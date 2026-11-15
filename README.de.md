@@ -20,6 +20,8 @@ Erinnerungen, Notizen und die Einkaufsliste deines [Homeloom](https://github.com
 - **Quick Add to Shopping List**: direkt aus Raycast einen Punkt auf die Einkaufsliste setzen.
 - **Smart Home**: Lichter und Szenen schalten, Messwerte ansehen.
 - **Someday** und **Add to Someday**: Filme, Bücher und Orte für irgendwann.
+- **Questions**: offene Fragen beantworten und geöffnete zusammen lesen.
+- **Grateful Today**: die Dankbarkeitszeile für heute schreiben.
 - **Ask Assistant**: eine Frage zu deinem Haushalt stellen und nachfragen.
 
 ## Einrichten

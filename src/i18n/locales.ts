@@ -127,6 +127,19 @@ const en = {
   read: "Read",
   visit: "Visit",
   remove: "Remove",
+  noQuestions: "No questions yet",
+  openQuestions: "Waiting",
+  revealedQuestions: "Opened",
+  askQuestion: "Ask a Question",
+  questionAsked: "Question asked",
+  answer: "Answer",
+  editAnswer: "Edit Answer",
+  yourAnswer: "Your answer",
+  answerSaved: "Answer saved",
+  answersHiddenUntilOpen: "Other answers stay hidden until everyone replies.",
+  gratefulToday: "Grateful today",
+  gratitudePlaceholder: "One line is enough",
+  gratitudeSaved: "Saved for today",
 };
 
 const de: typeof en = {
@@ -259,6 +272,19 @@ const de: typeof en = {
   read: "Lesen",
   visit: "Hinfahren",
   remove: "Entfernen",
+  noQuestions: "Noch keine Fragen",
+  openQuestions: "Offen",
+  revealedQuestions: "Geöffnet",
+  askQuestion: "Frage stellen",
+  questionAsked: "Frage gestellt",
+  answer: "Beantworten",
+  editAnswer: "Antwort ändern",
+  yourAnswer: "Deine Antwort",
+  answerSaved: "Antwort gespeichert",
+  answersHiddenUntilOpen: "Andere Antworten bleiben verborgen, bis alle geantwortet haben.",
+  gratefulToday: "Heute dankbar für",
+  gratitudePlaceholder: "Eine Zeile reicht",
+  gratitudeSaved: "Für heute gespeichert",
 };
 
 export type Key = keyof typeof en;

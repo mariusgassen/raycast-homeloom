@@ -20,6 +20,8 @@ Reminders, notes and the shopping list of your [Homeloom](https://github.com/mar
 - **Quick Add to Shopping List**: add an item straight from Raycast without opening a view.
 - **Smart Home**: switch lights and scenes, check room readings.
 - **Someday** and **Add to Someday**: things to watch, read or visit together.
+- **Questions**: answer open questions and read opened ones together.
+- **Grateful Today**: write today's one-line gratitude.
 - **Ask Assistant**: ask a question about your household and ask more.
 
 ## Set up
