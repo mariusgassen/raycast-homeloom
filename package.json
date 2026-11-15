@@ -175,6 +175,20 @@
       "mode": "view"
     },
     {
+      "name": "bucket",
+      "title": "Someday",
+      "subtitle": "Homeloom",
+      "description": "Things to watch, read or visit some day.",
+      "mode": "view"
+    },
+    {
+      "name": "add-bucket-item",
+      "title": "Add to Someday",
+      "subtitle": "Homeloom",
+      "description": "Save something to watch, read or visit some day.",
+      "mode": "view"
+    },
+    {
       "name": "assistant",
       "title": "Ask Assistant",
       "subtitle": "Homeloom",

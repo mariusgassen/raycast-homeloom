@@ -273,6 +273,25 @@ export const tickShopping = async (id: string, done: boolean) =>
 export const clearDoneShopping = async () =>
   api<void>("DELETE", await inHousehold("/shopping-list/done"));
 
+export type BucketKind = "watch" | "read" | "visit";
+
+export interface BucketItem {
+  id: string;
+  kind: BucketKind;
+  text: string;
+  done: boolean;
+  doneAt?: string;
+}
+
+export const listBucket = async (kind?: BucketKind) =>
+  api<BucketItem[]>("GET", await inHousehold(kind ? `/bucket?kind=${kind}` : "/bucket"));
+export const addBucketItem = async (kind: BucketKind, text: string) =>
+  api<BucketItem>("POST", await inHousehold("/bucket"), { kind, text });
+export const tickBucketItem = async (id: string, done: boolean) =>
+  api<BucketItem>(done ? "PUT" : "DELETE", await inHousehold(`/bucket/${id}/done`));
+export const deleteBucketItem = async (id: string) =>
+  api<void>("DELETE", await inHousehold(`/bucket/${id}`));
+
 /** The local calendar day of a timestamp, YYYY-MM-DD. */
 export function localDay(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");
